@@ -12,7 +12,7 @@ class appointmentsSeeder extends Seeder
     public function run()
     {
         $appoins = array(
-            array("2020/1/18 7:00:00", 'Activo', 'oh no casi', 0, 1, 1, 2, 1),
+            array("2020/1/18 7:00:00", 'Activo', 'oh no casi', 0, 1, 1, 1, 1),
         );
         foreach($appoins as $appoin){
             $array= array_values($appoin);

@@ -13,4 +13,14 @@
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
+
 });
+//$router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->get('/users', 'UserController@index');
+    $router->get('/species', 'SpecieController@index');
+    $router->get('/pets', 'PetController@index');
+
+    $router->get('/species/{id}', 'SpecieController@show');
+    $router->post('/species', 'SpecieController@store');
+    $router->put('/species', 'SpecieController@update');
+//});

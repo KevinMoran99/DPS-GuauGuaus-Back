@@ -12,8 +12,8 @@ class pet_detailsSeeder extends Seeder
     public function run()
     {
         $details = array(
-            array(2, 1, "tiene sobrepeso"),
-            array(2, 2, "y ta ciego")
+            array(1, 2, "tiene sobrepeso"),
+            array(1, 1, "y ta ciego")
         );
         foreach($details as $detail){
             $array= array_values($detail);
