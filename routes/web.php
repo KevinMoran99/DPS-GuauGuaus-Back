@@ -18,10 +18,14 @@ $router->get('/', function () use ($router) {
 //$router->group(['middleware' => 'auth'], function () use ($router) {
     $router->get('/users', 'UserController@index');
     $router->get('/species', 'SpecieController@index');
+
     $router->get('/pets', 'PetController@index');
     $router->post('/pets', 'PetController@store');
     $router->get('/pets/{id}', 'PetController@show');
     $router->put('/pets', 'PetController@update');
+    $router->get('/pets/client/{owner_id}', 'PetController@getPetbyOwner');
+    $router->get('/pets/specie/{specie_id}', 'PetController@getPetbySpecie');
+
 
     $router->get('/species/{id}', 'SpecieController@show');
     $router->post('/species', 'SpecieController@store');

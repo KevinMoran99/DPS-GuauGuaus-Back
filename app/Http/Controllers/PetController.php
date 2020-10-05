@@ -91,4 +91,29 @@ class PetController extends Controller
 
         return $json;
     }
+    public function getPetbySpecie($specie_id)
+    {
+        $pet = Pet::with('owner', 'species')->where("species_id", $specie_id)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró la mascota esa especie.'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
+        return $json;
+    }
+
+    public function getPetbyOwner($owner_id)
+    {
+        $pet = Pet::with('owner', 'species')->where("owner_id", $owner_id)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró la mascota con ese dueño'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
+        return $json;
+    }
 }
