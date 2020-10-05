@@ -11,7 +11,7 @@ class Pet extends Model
     protected $fillable = [
         'name', 'birthday', 'photo', 'weight', 'height', 'state', 'species_id', 'owner_id'
     ];
-    public function specie(){
+    public function species(){
         return $this->belongsTo('App\Models\Specie');
     }
     public function owner(){
