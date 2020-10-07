@@ -30,4 +30,8 @@ $router->get('/', function () use ($router) {
     $router->get('/species/{id}', 'SpecieController@show');
     $router->post('/species', 'SpecieController@store');
     $router->put('/species', 'SpecieController@update');
+
+    $router->post('/login', 'UserController@login');
+    $router->get('/profile', 'UserController@profile');
+
 //});
