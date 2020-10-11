@@ -63,7 +63,7 @@ class AppointmentTypeController extends Controller
         $validator = Validator::make($request->all(),
             $rules = array(
                 'name' => array('required', 'min:1', 'max:50'),
-                'duration' => array('required','numeric')
+                'duration' => array('required','numeric'),
                 'state'=>array('required', 'boolean'),
             )
         );
@@ -130,7 +130,7 @@ class AppointmentTypeController extends Controller
         $validator = Validator::make($request->all(),
             $rules = array(
                 'name' => array('required', 'min:1', 'max:50'),
-                'duration' => array('required','numeric')
+                'duration' => array('required','numeric'),
                 'state'=>array('required', 'boolean'),
             )
         );
