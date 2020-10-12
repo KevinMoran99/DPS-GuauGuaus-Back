@@ -29,7 +29,7 @@ class AppointmentTypeController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $appointmentType = AppointmentType::find($id);
+        $appointmentType = AppointmentType::find($id)->where('state',1);
 
         //Check if data was found
         if(!$appointmentType) {

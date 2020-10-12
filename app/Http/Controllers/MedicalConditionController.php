@@ -29,7 +29,7 @@ class MedicalConditionController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $medicalCondition = MedicalCondition::find($id);
+        $medicalCondition = MedicalCondition::find($id)->where('state',1);
 
         //Check if data was found
         if(!$medicalCondition) {

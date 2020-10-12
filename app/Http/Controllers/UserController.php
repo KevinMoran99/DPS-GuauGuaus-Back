@@ -23,7 +23,7 @@ class UserController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $user = User::find($id);
+        $user = User::find($id)->where('state',1);
 
         //Check if data was found
         if(!$user) {

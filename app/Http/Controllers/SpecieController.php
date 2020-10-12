@@ -70,7 +70,7 @@ class SpecieController extends Controller
 
     public function show($id)
     {
-        $specie = Specie::find($id);
+        $specie = Specie::find($id)->where('state',1);
 
         if(!$specie) {
             return response()->json(['No se encontró la especie.'], 404);
