@@ -116,4 +116,17 @@ class PetController extends Controller
 
         return $json;
     }
+
+    public function getActivePets()
+    {
+        $pet = Pet::with('owner', 'species')->where("state", 1)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró mascotas activas'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
+        return $json;
+    }
 }

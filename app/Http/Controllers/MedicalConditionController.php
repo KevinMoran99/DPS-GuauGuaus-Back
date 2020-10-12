@@ -43,6 +43,18 @@ class MedicalConditionController extends Controller
         //Return json 
         return $json;
     }
+    public function getActiveMedicalCondition()
+    {
+        $pet = MedicalCondition::where("state", 1)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró especificaciones medicas activas'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
+        return $json;
+    }
 
     //Create data
     public function store(Request $request)

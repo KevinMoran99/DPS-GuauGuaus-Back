@@ -43,6 +43,18 @@ class AppointmentTypeController extends Controller
         //Return json 
         return $json;
     }
+    public function getActiveAppointmentTypes()
+    {
+        $pet = AppointmentType::where("state", 1)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró mascotas activas'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
+        return $json;
+    }
 
     //Create data
     public function store(Request $request)

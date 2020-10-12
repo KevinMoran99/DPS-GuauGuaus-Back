@@ -28,8 +28,8 @@ class UserTypesController extends Controller
     //Search for UserTypes
     public function show($id)
     {
-        //Searches for data using an id and with an active(1) state
-        $userType = UserType::find($id)->where('state',1);
+        //Searches for data using an id
+        $userType = UserType::find($id);
 
         //Check if data was found
         if(!$userType) {
@@ -60,7 +60,7 @@ class UserTypesController extends Controller
         */
         $validator = Validator::make($request->all(),
             $rules = array(
-                'name' => array('required', 'min:3', 'max:100'),
+                'name' => array('required','unique:users_types','min:3', 'max:100'),
                 'state'=>array('required', 'boolean'),
             )
         );
@@ -124,7 +124,7 @@ class UserTypesController extends Controller
         */
         $validator = Validator::make($request->all(),
             $rules = array(
-                'name' => array('required','unique:users_types', 'min:3', 'max:100'),
+                'name' => array('required','min:3', 'max:100'),
                 'state'=>array('required', 'boolean'),
             )
         );
@@ -152,5 +152,17 @@ class UserTypesController extends Controller
             //Return throw error in json format
             return response()->json($th->getMessage(), 423);
         }
+    }
+    public function getActiveUserTypes()
+    {
+        $types = UserType::where("state", 1)->get();
+
+        if(count($types) ==0) {
+            return response()->json(['No se encontró tipos de usuario activos'], 404);
+        }
+
+        $json = json_decode($types, true);
+
+        return $json;
     }
 }

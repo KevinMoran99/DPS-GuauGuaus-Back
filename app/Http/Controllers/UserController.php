@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('UserType')-get();
+        $users = User::with('type_user')->get();
         $json = json_decode($users, true);
 
         return $json;
@@ -23,7 +23,7 @@ class UserController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $user = User::find($id);
+        $user = User::with('type_user')->find($id);
 
         //Check if data was found
         if(!$user) {
@@ -38,6 +38,18 @@ class UserController extends Controller
         return $json;
     }
 
+    public function getActiveUsers()
+    {
+        $user = User::with('type_user')->where("state", 1)->get();
+
+        if(count($user) ==0) {
+            return response()->json(['No se encontró usuarios activos'], 404);
+        }
+
+        $json = json_decode($user, true);
+
+        return $json;
+    }
 
     //Create data
     public function store(Request $request)

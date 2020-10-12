@@ -14,7 +14,7 @@ class UserType extends Model
 
     /*Relation between user_types and user (one to many)*/
     public function user(){
-        return $this->hasMany('App\Models\User');
+        return $this->hasOne('App\Models\User');
     }
 
     /*Relation between user_types and permission (one to many)*/
