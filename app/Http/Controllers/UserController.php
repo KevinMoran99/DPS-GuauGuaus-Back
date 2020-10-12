@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('UserType')-get();
+        $users = User::with('UserType')->get();
         $json = json_decode($users, true);
 
         return $json;
