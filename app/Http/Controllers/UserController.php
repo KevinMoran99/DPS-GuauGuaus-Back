@@ -13,7 +13,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        $users = User::with('UserType')-get();
         $json = json_decode($users, true);
 
         return $json;
@@ -49,9 +49,9 @@ class UserController extends Controller
             last name -> has to be required, minimum of 3 characters, maximun of 50 characters
             email -> has to be required, has to have email format, maximum of 50 characters
             password -> has to be required
-            dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to be numeric, has to be an integer
-            address -> has to be required, minimum of 5 characters ,maximum of 500 characters
-            phone -> has to be required, minimum of 8 characters, maximum of 8 characters, has to be numeric, has to be an integer
+            dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to follow regular expression
+            address -> has to be required, minimum of 5 characters ,maximum of 500 characters, has to follow regular expression
+            phone -> has to be required, minimum of 8 characters, maximum of 8 characters
             state -> has to be required, has to be a boolean character
             type_user_id -> has to be required, has to be numeric, has to be an integer
 
@@ -63,9 +63,9 @@ class UserController extends Controller
                 'lastname' => array('required','min:3', 'max:50'),
                 'email' => array('required','email','max:50'),
                 'password' => array('required'),
-                'dui' => array('required','min:10','max:10','numeric','integer'),
+                'dui' => array('required','min:10','max:10','regex:^[0-9]{8}[-][0-9]{1}$'),
                 'address' => array('required','min:5','max:500'),
-                'phone' => array('required','min:8','max:8','numeric','integer'),
+                'phone' => array('required','min:8','max:8','regex:^[267]{1}[0-9]{7}$'),
                 'state'=>array('required', 'boolean'),
                 'type_user_id' => array('required','numeric','integer'),
             )
@@ -122,9 +122,9 @@ class UserController extends Controller
             last name -> has to be required, minimum of 3 characters, maximun of 50 characters
             email -> has to be required, has to have email format, maximum of 50 characters
             password -> has to be required
-            dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to be numeric, has to be an integer
-            address -> has to be required, minimum of 5 characters ,maximum of 500 characters
-            phone -> has to be required, minimum of 8 characters, maximum of 8 characters, has to be numeric, has to be an integer
+            dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to follow regular expression
+            address -> has to be required, minimum of 5 characters ,maximum of 500 characters, has to follow regular expression
+            phone -> has to be required, minimum of 8 characters, maximum of 8 characters
             state -> has to be required, has to be a boolean character
             type_user_id -> has to be required, has to be numeric, has to be an integer
 
@@ -135,10 +135,9 @@ class UserController extends Controller
                 'name' => array('required','min:3', 'max:50'),
                 'lastname' => array('required','min:3', 'max:50'),
                 'email' => array('required','email','max:50'),
-                'password' => array('required'),
-                'dui' => array('required','min:10','max:10','numeric','integer'),
+                'dui' => array('required','min:10','max:10','regex:^[0-9]{8}[-][0-9]{1}$'),
                 'address' => array('required','min:5','max:500'),
-                'phone' => array('required','min:8','max:8','numeric','integer'),
+                'phone' => array('required','min:8','max:8','regex:^[267]{1}[0-9]{7}$'),
                 'state'=>array('required', 'boolean'),
                 'type_user_id' => array('required','numeric','integer'),
             )
@@ -152,6 +151,12 @@ class UserController extends Controller
         }
 
         try {
+
+            //Check if password is given in request
+            if($request->has('password')){
+                //Add password to parameters
+                $user->password = $request->password;
+            }
 
             //Inserts data recieved from form into variable
             $user->fill($request->all());
