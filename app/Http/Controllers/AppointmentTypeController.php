@@ -29,7 +29,7 @@ class AppointmentTypeController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $appointmentType = AppointmentType::find($id)->where('state',1);
+        $appointmentType = AppointmentType::find($id);
 
         //Check if data was found
         if(!$appointmentType) {
@@ -41,6 +41,18 @@ class AppointmentTypeController extends Controller
         $json = json_decode($appointmentType, true);
 
         //Return json 
+        return $json;
+    }
+    public function getActiveAppointmentTypes()
+    {
+        $pet = AppointmentType::where("state", 1)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró mascotas activas'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
         return $json;
     }
 

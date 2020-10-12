@@ -20,13 +20,15 @@ $router->get('/', function () use ($router) {
     /*routes pets*/
     $router->get('/pets', 'PetController@index');
     $router->post('/pets', 'PetController@store');
+    $router->get('/pets/active', 'PetController@getActivePets');
+    $router->get('/pets/specie/{specie_id}', 'PetController@getPetbySpecie');
     $router->get('/pets/{id}', 'PetController@show');
     $router->put('/pets', 'PetController@update');
     $router->get('/pets/client/{owner_id}', 'PetController@getPetbyOwner');
-    $router->get('/pets/specie/{specie_id}', 'PetController@getPetbySpecie');
 
     /*routes species*/
     $router->get('/species', 'SpecieController@index');
+    $router->get('/species/active', 'SpecieController@getActiveSpecies');
     $router->get('/species/{id}', 'SpecieController@show');
     $router->post('/species', 'SpecieController@store');
     $router->put('/species', 'SpecieController@update');
@@ -34,6 +36,7 @@ $router->get('/', function () use ($router) {
 
     /*routes User Types*/
     $router->get('/usertypes', 'UserTypesController@index');
+    $router->get('/usertypes/active', 'UserTypesController@getActiveUserTypes');
     $router->get('/usertypes/{id}', 'UserTypesController@show');
     $router->post('/usertypes', 'UserTypesController@store');
     $router->put('/usertypes', 'UserTypesController@update');
@@ -46,18 +49,21 @@ $router->get('/', function () use ($router) {
 
     /*routes Medical Conditions*/
     $router->get('/medicalconditions', 'MedicalConditionController@index');
+    $router->get('/medicalconditions/active', 'MedicalConditionController@getActiveMedicalCondition');
     $router->get('/medicalconditions/{id}', 'MedicalConditionController@show');
     $router->post('/medicalconditions', 'MedicalConditionController@store');
     $router->put('/medicalconditions', 'MedicalConditionController@update');
 
     /*routes Appointment Types*/
     $router->get('/appointmenttypes', 'AppointmentTypeController@index');
+    $router->get('/appointmenttypes/active', 'AppointmentTypeController@getActiveAppointmentTypes');
     $router->get('/appointmenttypes/{id}', 'AppointmentTypeController@show');
     $router->post('/appointmenttypes', 'AppointmentTypeController@store');
     $router->put('/appointmenttypes', 'AppointmentTypeController@update');
 
     /*routes User*/
     $router->get('/users', 'UserController@index');
+    $router->get('/users/active', 'UserController@getActiveUsers');
     $router->get('/users/{id}', 'UserController@show');
     $router->post('/users', 'UserController@store');
     $router->put('/users', 'UserController@update');

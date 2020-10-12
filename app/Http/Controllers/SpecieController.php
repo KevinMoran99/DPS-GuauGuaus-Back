@@ -70,7 +70,7 @@ class SpecieController extends Controller
 
     public function show($id)
     {
-        $specie = Specie::find($id)->where('state',1);
+        $specie = Specie::find($id);
 
         if(!$specie) {
             return response()->json(['No se encontró la especie.'], 404);
@@ -85,6 +85,19 @@ class SpecieController extends Controller
     public function index()
     {
         $species = Specie::all();
+        $json = json_decode($species, true);
+
+        return $json;
+    }
+    
+    public function getActiveSpecies()
+    {
+        $species = Specie::where("state", 1)->get();
+
+        if(count($species) ==0) {
+            return response()->json(['No se encontró especies activas'], 404);
+        }
+
         $json = json_decode($species, true);
 
         return $json;

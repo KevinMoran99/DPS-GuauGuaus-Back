@@ -29,7 +29,7 @@ class PermissionController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $permission = Permission::find($id)->where('state',1);
+        $permission = Permission::find($id);
 
         //Check if data was found
         if(!$permission) {

@@ -30,10 +30,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
-
+    public function type_user(){
+        return $this->belongsTo('App\Models\UserType');
+    }
     public function pet(){
         return $this->hasMany('App\Models\Pet');
     }
+
 
     public function getJWTIdentifier()
     {

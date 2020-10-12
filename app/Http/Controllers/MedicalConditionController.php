@@ -29,7 +29,7 @@ class MedicalConditionController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $medicalCondition = MedicalCondition::find($id)->where('state',1);
+        $medicalCondition = MedicalCondition::find($id);
 
         //Check if data was found
         if(!$medicalCondition) {
@@ -41,6 +41,18 @@ class MedicalConditionController extends Controller
         $json = json_decode($medicalCondition, true);
 
         //Return json 
+        return $json;
+    }
+    public function getActiveMedicalCondition()
+    {
+        $pet = MedicalCondition::where("state", 1)->get();
+
+        if(count($pet) ==0) {
+            return response()->json(['No se encontró especificaciones medicas activas'], 404);
+        }
+
+        $json = json_decode($pet, true);
+
         return $json;
     }
 
