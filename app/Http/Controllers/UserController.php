@@ -147,9 +147,9 @@ class UserController extends Controller
                 'name' => array('required','min:3', 'max:50'),
                 'lastname' => array('required','min:3', 'max:50'),
                 'email' => array('required','email','max:50'),
-                'dui' => array('required','min:10','max:10','regex:^[0-9]{8}[-][0-9]{1}$'),
+                'dui' => array('required','min:10','max:10','regex:"^[0-9]{8}[-][0-9]{1}$"'),
                 'address' => array('required','min:5','max:500'),
-                'phone' => array('required','min:8','max:8','regex:^[267]{1}[0-9]{7}$'),
+                'phone' => array('required','min:8','max:8','regex:"^[267]{1}[0-9]{7}$"'),
                 'state'=>array('required', 'boolean'),
                 'type_user_id' => array('required','numeric','integer'),
             )
