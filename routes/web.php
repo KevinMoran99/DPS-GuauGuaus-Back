@@ -24,6 +24,7 @@ $router->get('/', function () use ($router) {
     $router->get('/pets/specie/{specie_id}', 'PetController@getPetbySpecie');
     $router->get('/pets/{id}', 'PetController@show');
     $router->post('/pets/update', 'PetController@update');
+    $router->put('/pets', 'PetController@update');
     $router->get('/pets/client/{owner_id}', 'PetController@getPetbyOwner');
 
     /*routes species*/
