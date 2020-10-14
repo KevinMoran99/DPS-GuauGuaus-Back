@@ -69,6 +69,8 @@ $router->get('/', function () use ($router) {
     $router->post('/users', 'UserController@store');
     $router->put('/users', 'UserController@update');
     $router->post('/login', 'UserController@login');
+    $router->get('/logout', 'UserController@logout');
     $router->get('/profile', 'UserController@profile');
+    $router->post('/socials', 'UserController@storeSocial');
 
 //});

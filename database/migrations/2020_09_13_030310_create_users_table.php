@@ -18,11 +18,12 @@ class CreateUsersTable extends Migration
             $table->string('name', 50);
             $table->string('lastname', 50);
             $table->string('email', 50)->unique();
-            $table->string('password', 50);
+            $table->string('password', 500);
             $table->char('dui', 10)->unique();
             $table->string('address', 500);
             $table->char('phone', 8);
             $table->boolean('state')->default(1);
+            $table->boolean('socials')->default(0);
             $table->unsignedBigInteger('type_user_id');
             $table->foreign('type_user_id')->references('id')->on('users_types');
             $table->timestamps();

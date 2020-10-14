@@ -99,6 +99,9 @@ class UserController extends Controller
             //Inserts data recieved from form into variable
             $user->fill($request->all());
 
+            //Encrypt the password
+            $user->password = Hash::make($request->password);
+
             //Adds new data into database
             $user->save();
 
@@ -207,9 +210,18 @@ class UserController extends Controller
           //validate incoming request 
         $this->validate($request, [
             'email' => 'required|string',
+            'password' => 'required|string',
         ]);
 
-        if (! $token = Auth::attempt(['email' => $request->email, 'password' => $request->password, 'state' => 1])) {
+        if (! $token = Auth::attempt(['email' => $request->email, 'password' => $request->password, 'state' => 1, 'socials'=>0])) {
+            return response()->json(['Credenciales incorrectas.'], 401);
+        }
+
+        return $this->respondWithToken($token);
+    }
+    public function loginsoc($User)
+    {
+        if (! $token = Auth::attempt(['email' => $User->email, 'password' => $User->password, 'state' => 1])) {
             return response()->json(['Credenciales incorrectas.'], 401);
         }
 
@@ -229,6 +241,66 @@ class UserController extends Controller
             return response()->json(['Token invalido'], $e->getStatusCode());
         } catch (JWTException $e) {
             return response()->json(['Token ausente'], $e->getStatusCode());
+        }
+    }
+
+    public function storeSocial(Request $request)
+    {
+        /*Validate get/post from form
+
+        Rules: 
+            name -> has to be required,  minimum of 3 characters, maximun of 50 characters
+            last name -> has to be required, minimum of 3 characters, maximun of 50 characters
+            email -> has to be required, has to have email format, maximum of 50 characters
+            password -> has to be required
+            dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to follow regular expression
+            address -> has to be required, minimum of 5 characters ,maximum of 500 characters, has to follow regular expression
+            phone -> has to be required, minimum of 8 characters, maximum of 8 characters
+            state -> has to be required, has to be a boolean character
+            type_user_id -> has to be required, has to be numeric, has to be an integer
+
+        */
+        $validator = Validator::make($request->all(),
+            $rules = array(
+                'name' => array('required','min:3', 'max:50'),
+                'email' => array('required','email','max:50'),
+            )
+        );
+        
+
+        //Check if validation fails
+        if ($validator->fails()) {
+
+            //Return response of errors in json format
+            return response()->json(['errors'=>$validator->errors()], 422);
+        }
+
+
+        try {
+            //Starts UserType variable
+            $user = new User;
+
+            //Inserts data recieved from form into variable
+            $user->fill($request->all());
+            $user->socials=1;
+            $user->password = Hash::make($request->email."AAA");
+            $user->type_user_id=3;
+
+            //Adds new data into database
+            $validateuser = User::where("email", $user->email)->get();
+
+            if(count($validateuser) ==0) {
+                $user->save();
+            }
+            $user->password = $request->email."AAA";
+           return $this->loginsoc($user);
+            //Return list of data from data base in json format
+            /*return response()->json($user);*/
+
+        } catch (\Throwable $th) {
+
+            //Return throw error in json format
+            return response()->json($th->getMessage(), 423);
         }
     }
 }
