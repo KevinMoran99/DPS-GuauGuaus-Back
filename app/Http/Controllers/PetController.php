@@ -40,7 +40,8 @@ class PetController extends Controller
         {
             $sava = $this->UserController->show($request->owner_id);
             $sava2 = $this->SpecieController->show($request->species_id);
-            $nombrearchivo=$request->name.'_'.$sava2['name'].'_'.$sava['dui'];
+            $nuevo = explode("@", $sava['email'] );
+            $nombrearchivo=$request->name.'_'.$sava2['name'].'_'.$nuevo[0];
             $imagensalida="img/".str_replace(" ", "_",$nombrearchivo).".jpg";
             $imagen = base64_decode($request->photo);
             $botes = file_put_contents($imagensalida, $imagen);
