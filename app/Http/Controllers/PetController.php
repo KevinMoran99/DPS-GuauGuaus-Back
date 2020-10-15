@@ -72,7 +72,7 @@ class PetController extends Controller
             $rules = array(
                 'name' => array('required', 'min:3', 'max:25'),
                 'birthday' => array('required', 'before:tomorrow', 'date_format:Y-m-d'),
-                'photo' => array('required', 'min:3'),
+                'photo' => array('min:3'),
                 'weight' => array('required','regex:/^\d+(\.\d{1,2})?$/','min:0'),
                 'height'=> array('required','regex:/^\d+(\.\d{1,2})?$/','min:0'),
                 'state'=>array('required', 'boolean'),
@@ -86,21 +86,29 @@ class PetController extends Controller
         }
         try
         {
-            $sava = $this->UserController->show($request->owner_id);
-            $sava2 = $this->SpecieController->show($request->species_id);
-            $nombrearchivo=$request->name.'_'.$sava2['name'].'_'.$sava['dui'];
-            $imagensalida="img/".str_replace(" ", "_",$nombrearchivo).".jpg";
-            $imagen = base64_decode($request->photo);
-            $botes = file_put_contents($imagensalida, $imagen);
-            $request->merge([
-                'photo'=>'/'.$imagensalida
-            ]);
+            if ($request->photo != $pet->photo && $request->photo !="") {
+                $sava = $this->UserController->show($request->owner_id);
+                $sava2 = $this->SpecieController->show($request->species_id);
+                $nuevo = explode("@", $sava['email'] );
+                $nombrearchivo=$request->name.'_'.$sava2['name'].'_'.$nuevo[0];
+                $imagensalida="img/".str_replace(" ", "_",$nombrearchivo).".jpg";
+                $imagen = base64_decode($request->photo);
+                $botes = file_put_contents($imagensalida, $imagen);
+                $request->merge([
+                    'photo'=>'/'.$imagensalida
+                ]);
+            }
+            else
+            {
+
+            }
+
         }
         catch (\Throwable $th) {
             return response()->json($th->getMessage(), 424);
         }
         $pet->fill($request->all());
-
+        $pet->photo = $imagenante;
         try {
 
             $pet->save();
