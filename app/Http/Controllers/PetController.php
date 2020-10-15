@@ -72,7 +72,6 @@ class PetController extends Controller
             $rules = array(
                 'name' => array('required', 'min:3', 'max:25'),
                 'birthday' => array('required', 'before:tomorrow', 'date_format:Y-m-d'),
-                'photo' => array('min:3'),
                 'weight' => array('required','regex:/^\d+(\.\d{1,2})?$/','min:0'),
                 'height'=> array('required','regex:/^\d+(\.\d{1,2})?$/','min:0'),
                 'state'=>array('required', 'boolean'),
@@ -97,10 +96,7 @@ class PetController extends Controller
                 $request->merge([
                     'photo'=>'/'.$imagensalida
                 ]);
-            }
-            else
-            {
-
+                $imagenante = '/'.$imagensalida;
             }
 
         }
