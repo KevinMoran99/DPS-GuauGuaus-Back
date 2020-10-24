@@ -36,6 +36,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function pet(){
         return $this->hasMany('App\Models\Pet');
     }
+    public function schedule(){
+        return $this->hasMany('App\Models\Schedule');
+    }
+    public function special(){
+        return $this->hasMany('App\Models\Schedule');
+    }
 
 
     public function getJWTIdentifier()

@@ -73,4 +73,33 @@ $router->get('/', function () use ($router) {
     $router->get('/profile', 'UserController@profile');
     $router->post('/socials', 'UserController@storeSocial');
 
+    /*routes PetDetails*/
+    $router->get('/petdetails', 'PetDetailController@index');
+    $router->get('/petdetails/active', 'PetDetailController@getActivePetDetails');
+    $router->get('/petdetails/pets/active/{pet_id}', 'PetDetailController@showActiveMediConditionsForPets');
+    $router->get('/petdetails/condition/active/{condition_id}', 'PetDetailController@showMediConditionsForConditionsactive');
+    $router->get('/petdetails/condition/{condition_id}', 'PetDetailController@showMediConditionsForConditions');
+    $router->get('/petdetails/pets/{pet_id}', 'PetDetailController@showMediConditionsForPets');
+    $router->get('/petdetails/{id}', 'PetDetailController@show');
+    $router->post('/petdetails', 'PetDetailController@store');
+    $router->put('/petdetails', 'PetDetailController@update');
+
+    /*routes Schedules*/
+    $router->get('/schedules', 'ScheduleController@index');
+    $router->get('/schedules/active', 'ScheduleController@getActiveSchedules');
+    $router->get('/schedules/doctor/active/{doctor_id}', 'ScheduleController@getDoctorActiveSchedules');
+    $router->get('/schedules/{id}', 'ScheduleController@show');
+    $router->get('/schedules/doctor/{doctor_id}', 'ScheduleController@getDoctorSchedules');
+    $router->post('/schedules', 'ScheduleController@store');
+    $router->put('/schedules', 'ScheduleController@update');
+
+    /*routes Specials*/
+    $router->get('/specials', 'SpecialController@index');
+    $router->get('/specials/{id}', 'SpecialController@show');
+    $router->post('/specials', 'SpecialController@store');
+    $router->put('/specials', 'SpecialController@update');
+    $router->get('/specials/doctor/{doctor_id}', 'SpecialController@getDoctorSpecials');
+    $router->get('/specials/doctor/active/{doctor_id}', 'SpecialController@getDoctorActiveSpecials');
+
+
 //});

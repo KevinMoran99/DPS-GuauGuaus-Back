@@ -17,4 +17,7 @@ class Pet extends Model
     public function owner(){
         return $this->belongsTo('App\Models\User');
     }
+    public function petdetails(){
+        return $this->hasMany('App\Models\PetDetail');
+    }
 }
