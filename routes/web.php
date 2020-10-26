@@ -44,6 +44,9 @@ $router->get('/', function () use ($router) {
 
     /*routes Permissions*/
     $router->get('/permissions', 'PermissionController@index');
+    $router->get('/permissions/active', 'PermissionController@getActivePermission');
+    $router->get('/permissions/users/{type_users_id}', 'PermissionController@getTypeUsersPermissions');
+    $router->get('/permissions/users/active/{type_users_id}', 'PermissionController@getActiveTypeUsersPermissions');
     $router->get('/permissions/{id}', 'PermissionController@show');
     $router->post('/permissions', 'PermissionController@store');
     $router->put('/permissions', 'PermissionController@update');

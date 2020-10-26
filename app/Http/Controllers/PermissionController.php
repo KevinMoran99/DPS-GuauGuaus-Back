@@ -16,7 +16,7 @@ class PermissionController extends Controller
     public function index()
     {
         //Requests list of data from data base
-        $permission = Permission::all();
+        $permission = Permission::with("users_types")->get();
 
         //Encodes in json format all the data found
         $json = json_decode($permission, true);
@@ -63,12 +63,12 @@ class PermissionController extends Controller
         */
         $validator = Validator::make($request->all(),
             $rules = array(
-                'name' => array('required','unique:permissions'),
-                'registro'=>array('required',),
-                'create' => array('reguired', 'numeric', 'integer'),
-                'read' => array('reguired', 'numeric', 'integer'),
-                'update' => array('reguired', 'numeric', 'integer'),
-                'delete' => array('reguired', 'numeric', 'integer'),
+                'registro'=>array('required','in:usuarios,tipos de usuarios,especies,horarios,especiales,mascotas,detalles de mascotas,permisos,condicion medica,tipos de citas,citas'),
+                'create' => array('required', 'boolean'),
+                'read' => array('required', 'boolean'),
+                'update' => array('required', 'boolean'),
+                'delete' => array('required', 'boolean'),
+                'users_types_id' => array('required', 'exists:users_types,id'),
                 'state'=>array('required', 'boolean')
             )
         );
@@ -110,7 +110,7 @@ class PermissionController extends Controller
     public function update(Request $request){
 
         //Searches for data using id
-        $permission = Permission::find($permission['id']);
+        $permission = Permission::find($request['id']);
 
         //Checks if data was found
         if(!$permission) {
@@ -135,12 +135,12 @@ class PermissionController extends Controller
         */
         $validator = Validator::make($request->all(),
             $rules = array(
-                'name' => array('required','unique:permissions'),
-                'registro'=>array('required',),
-                'create' => array('reguired', 'numeric', 'integer'),
-                'read' => array('reguired', 'numeric', 'integer'),
-                'update' => array('reguired', 'numeric', 'integer'),
-                'delete' => array('reguired', 'numeric', 'integer'),
+                'registro'=>array('required','in:usuarios,tipos de usuarios,especies,horarios,especiales,mascotas,detalles de mascotas,permisos,condicion medica,tipos de citas,citas'),
+                'create' => array('required', 'boolean'),
+                'read' => array('required', 'boolean'),
+                'update' => array('required', 'boolean'),
+                'delete' => array('required', 'boolean'),
+                'users_types_id' => array('required', 'exists:users_types,id'),
                 'state'=>array('required', 'boolean')
             )
         );
@@ -168,5 +168,58 @@ class PermissionController extends Controller
             //Return throw error in json format
             return response()->json($th->getMessage(), 423);
         }
+    }
+    public function getActivePermission()
+    {
+        //Searches for data using an id
+        $permission = Permission::with("users_types")->where("state", 1)->get();
+
+        //Check if data was found
+        if(count($permission) ==0) {
+            //Return no data found message
+            return response()->json(['No se encontraron permisos activos.'], 404);
+        }
+
+        //Encodes in json format all the data found
+        $json = json_decode($permission, true);
+
+        //Return json 
+        return $json;
+    }
+
+    public function getTypeUsersPermissions($type_users_id)
+    {
+        //Searches for data using an id
+        $permission = Permission::with("users_types")->where("users_types_id", $type_users_id)->get();
+
+        //Check if data was found
+        if(count($permission) ==0) {
+            //Return no data found message
+            return response()->json(['No se encontraron permisos activos.'], 404);
+        }
+
+        //Encodes in json format all the data found
+        $json = json_decode($permission, true);
+
+        //Return json 
+        return $json;
+    }
+
+    public function getActiveTypeUsersPermissions($type_users_id)
+    {
+        //Searches for data using an id
+        $permission = Permission::with("users_types")->where("users_types_id", $type_users_id)->where("state", 1)->get();
+
+        //Check if data was found
+        if(count($permission) ==0) {
+            //Return no data found message
+            return response()->json(['No se encontraron permisos activos.'], 404);
+        }
+
+        //Encodes in json format all the data found
+        $json = json_decode($permission, true);
+
+        //Return json 
+        return $json;
     }
 }
