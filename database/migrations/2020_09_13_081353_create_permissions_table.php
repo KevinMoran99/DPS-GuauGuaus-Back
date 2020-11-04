@@ -15,7 +15,8 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->enum('registro', ['usuarios', 'tipos de usuarios', 'especies', 'horarios', 'especiales', 'mascotas', 'detalles de mascotas', 'permisos', 'condicion medica', 'tipos de citas', 'citas']);
+            $table->enum('registro', ['users', 'users_types', 'species', 'schedules', 'special', 
+            'pets', 'pet_details', 'permissions', 'medical_condition', 'appointment_types', 'appointment']);
             $table->boolean('create');
             $table->boolean('read');
             $table->boolean('update');

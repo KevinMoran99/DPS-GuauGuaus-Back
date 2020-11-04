@@ -13,9 +13,13 @@
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
-
+	
 });
-//$router->group(['middleware' => 'auth'], function () use ($router) {
+
+//Login route
+$router->post('/login', 'UserController@login');
+
+$router->group(['middleware' => 'auth'], function () use ($router) {
     
     /*routes pets*/
     $router->get('/pets', 'PetController@index');
@@ -71,7 +75,6 @@ $router->get('/', function () use ($router) {
     $router->get('/users/{id}', 'UserController@show');
     $router->post('/users', 'UserController@store');
     $router->put('/users', 'UserController@update');
-    $router->post('/login', 'UserController@login');
     $router->get('/logout', 'UserController@logout');
     $router->get('/profile', 'UserController@profile');
     $router->post('/socials', 'UserController@storeSocial');
@@ -105,4 +108,4 @@ $router->get('/', function () use ($router) {
     $router->get('/specials/doctor/active/{doctor_id}', 'SpecialController@getDoctorActiveSpecials');
 
 
-//});
+});

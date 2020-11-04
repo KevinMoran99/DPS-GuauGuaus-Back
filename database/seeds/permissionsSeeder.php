@@ -12,7 +12,7 @@ class permissionsSeeder extends Seeder
     public function run()
     {
         $sches = array(
-            array("mascota", 1, 1, 1, 1, 1),
+            array("pets", 1, 1, 1, 1, 1),
         );
         foreach($sches as $sche){
             $array= array_values($sche);
