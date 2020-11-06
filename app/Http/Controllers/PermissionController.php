@@ -63,7 +63,7 @@ class PermissionController extends Controller
         */
         $validator = Validator::make($request->all(),
             $rules = array(
-                'registro'=>array('required','in:users,users_types,special,schedules,special,pets,pet_details,permissions,medical_condition,appointment_types,appointment'),
+                'registro'=>array('required','in:users,users_types,special,schedules,species,special,pets,pet_details,permissions,medical_condition,appointment_types,appointment'),
                 'create' => array('required', 'boolean'),
                 'read' => array('required', 'boolean'),
                 'update' => array('required', 'boolean'),
@@ -135,7 +135,7 @@ class PermissionController extends Controller
         */
         $validator = Validator::make($request->all(),
             $rules = array(
-                'registro'=>array('required','in:users,users_types,special,schedules,special,pets,pet_details,permissions,medical_condition,appointment_types,appointment'),
+                'registro'=>array('required','in:users,users_types,special,schedules,species,special,pets,pet_details,permissions,medical_condition,appointment_types,appointment'),
                 'create' => array('required', 'boolean'),
                 'read' => array('required', 'boolean'),
                 'update' => array('required', 'boolean'),
