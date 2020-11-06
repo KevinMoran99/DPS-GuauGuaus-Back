@@ -73,7 +73,9 @@ class Authenticate
             //Set permission parameter
             $permission = "create";
         }
-
+        if ($path=="logout" || $path=="profile") {
+            return $next($request);
+        }
         //Searches if the user_type of the user has the permission based on the table name (pets, users, etc...) and permission name (read, update, delete, create)
         $permission = Permission::with("users_types")->where("users_types_id", $user->type_user_id)
                                                      ->where("state", 1)

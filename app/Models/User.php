@@ -42,7 +42,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function special(){
         return $this->hasMany('App\Models\Schedule');
     }
-
+    public function permission(){
+        return $this->hasMany('App\Models\Permission', 'users_types_id', 'type_user_id');
+    }
 
     public function getJWTIdentifier()
     {
