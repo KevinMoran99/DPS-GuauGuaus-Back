@@ -18,6 +18,7 @@ $router->get('/', function () use ($router) {
 
 //Login route
 $router->post('/login', 'UserController@login');
+$router->post('/socials', 'UserController@storeSocial');
 
 $router->group(['middleware' => 'auth'], function () use ($router) {
     
@@ -77,7 +78,6 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     $router->put('/users', 'UserController@update');
     $router->get('/logout', 'UserController@logout');
     $router->get('/profile', 'UserController@profile');
-    $router->post('/socials', 'UserController@storeSocial');
 
     /*routes PetDetails*/
     $router->get('/petdetails', 'PetDetailController@index');
