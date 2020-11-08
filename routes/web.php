@@ -20,8 +20,15 @@ $router->get('/', function () use ($router) {
 $router->post('/login', 'UserController@login');
 $router->post('/socials', 'UserController@storeSocial');
 
+
 $router->group(['middleware' => 'auth'], function () use ($router) {
     
+    /*appointment route*/
+    $router->get('/appointments', 'AppointmentController@index');
+    $router->get('/appointments/{id}', 'AppointmentController@show');
+    $router->post('/appointments', 'AppointmentController@store');
+    $router->put('/appointments', 'AppointmentController@update');
+
     /*routes pets*/
     $router->get('/pets', 'PetController@index');
     $router->post('/pets', 'PetController@store');
