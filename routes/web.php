@@ -26,6 +26,7 @@ $router->group(['middleware' => 'auth'], function () use ($router) {
     /*appointment route*/
     $router->get('/appointments', 'AppointmentController@index');
     $router->get('/appointments/{id}', 'AppointmentController@show');
+    $router->get('/appointments/pet/{pet_id}', 'AppointmentController@getAppointmentbyPet');
     $router->post('/appointments', 'AppointmentController@store');
     $router->put('/appointments', 'AppointmentController@update');
 
