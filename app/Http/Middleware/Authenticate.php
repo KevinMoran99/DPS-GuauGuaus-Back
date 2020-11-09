@@ -124,6 +124,10 @@ class Authenticate
         if($path == "specials"){
             $path = "special";
         }
+        
+        if($path == "appointments"){
+            $path = "appointment";
+        }
 
         return $path;
     }
