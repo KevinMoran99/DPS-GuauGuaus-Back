@@ -73,7 +73,7 @@ class Authenticate
             //Set permission parameter
             $permission = "create";
         }
-        if ($path=="logout" || $path=="profile") {
+        if ($path=="logout" || $path=="profile" || $path=="updateProfile") {
             return $next($request);
         }
         //Searches if the user_type of the user has the permission based on the table name (pets, users, etc...) and permission name (read, update, delete, create)

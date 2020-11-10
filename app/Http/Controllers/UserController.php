@@ -167,15 +167,14 @@ class UserController extends Controller
 
         try {
 
-            //Check if password is given in request
-            if($request->has('password')){
-                //Add password to parameters
-                $user->password = $request->password;
-            }
-
             //Inserts data recieved from form into variable
             $user->fill($request->all());
             
+            //Check if password is given in request
+            if($request->has('password')){
+                //Add password to parameters
+                $user->password = Hash::make($request->password);
+            }
             //Adds new data into database
             $user->save();
 
@@ -303,5 +302,137 @@ class UserController extends Controller
             //Return throw error in json format
             return response()->json($th->getMessage(), 423);
         }
+    }
+
+
+    public function storeClient(Request $request)
+    {
+        /*Validate get/post from form
+
+        Rules: 
+            name -> has to be required,  minimum of 3 characters, maximun of 50 characters
+            last name -> has to be required, minimum of 3 characters, maximun of 50 characters
+            email -> has to be required, has to have email format, maximum of 50 characters
+            password -> has to be required
+            dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to follow regular expression
+            address -> has to be required, minimum of 5 characters ,maximum of 500 characters, has to follow regular expression
+            phone -> has to be required, minimum of 8 characters, maximum of 8 characters
+            state -> has to be required, has to be a boolean character
+            type_user_id -> has to be required, has to be numeric, has to be an integer
+
+        */
+        $validator = Validator::make($request->all(),
+            $rules = array(
+                //'name', 'lastname', 'email', 'password', 'dui', 'address', 'phone', 'state', 'type_user_id'
+                'name' => array('required','min:3', 'max:50'),
+                'lastname' => array('required','min:3', 'max:50'),
+                'email' => array('required','email','max:50'),
+                'password' => array('required'),
+                'dui' => array('required','min:10','max:10','regex:"^[0-9]{8}[-][0-9]{1}$"'),
+                'address' => array('required','min:5','max:500'),
+                'phone' => array('required','min:8','max:8','regex:"^[267]{1}[0-9]{7}$"'),
+            )
+        );
+        
+
+        //Check if validation fails
+        if ($validator->fails()) {
+
+            //Return response of errors in json format
+            return response()->json(['errors'=>$validator->errors()], 422);
+        }
+
+        
+        try {
+            //Starts UserType variable
+            $user = new User;
+
+            //Inserts data recieved from form into variable
+            $user->fill($request->all());
+            $user->type_user_id=3;
+
+            //Encrypt the password
+            $user->password = Hash::make($request->password);
+
+            //Adds new data into database
+            $user->save();
+
+            return response(['Usuario registrado correctamente'], 200);
+
+        } catch (\Throwable $th) {
+
+            //Return throw error in json format
+            return response()->json($th->getMessage(), 423);
+        }
+    }
+
+    public function updateProfile(Request $request){
+
+
+                $user = Auth::user();
+        
+                /*Validate get/post from form
+        
+                Rules: 
+                    name -> has to be required,  minimum of 3 characters, maximun of 50 characters
+                    last name -> has to be required, minimum of 3 characters, maximun of 50 characters
+                    email -> has to be required, has to have email format, maximum of 50 characters
+                    password -> has to be required
+                    dui -> has to be required, minimum of 10 characters, maximum of 10 characters, has to follow regular expression
+                    address -> has to be required, minimum of 5 characters ,maximum of 500 characters, has to follow regular expression
+                    phone -> has to be required, minimum of 8 characters, maximum of 8 characters
+                    state -> has to be required, has to be a boolean character
+                    type_user_id -> has to be required, has to be numeric, has to be an integer
+        
+                */
+                $validator = Validator::make($request->all(),
+                    $rules = array(
+                        //'name', 'lastname', 'email', 'password', 'dui', 'address', 'phone', 'state', 'type_user_id'
+                        'name' => array('required','min:3', 'max:50'),
+                        'lastname' => array('required','min:3', 'max:50'),
+                        'email' => array('required','email','max:50'),
+                        'dui' => array('required','min:10','max:10','regex:"^[0-9]{8}[-][0-9]{1}$"'),
+                        'address' => array('required','min:5','max:500'),
+                        'phone' => array('required','min:8','max:8','regex:"^[267]{1}[0-9]{7}$"'),
+                    )
+                );
+                
+                //Checks if validation fails
+                if($validator->fails()) {
+        
+                    //Return response of errors in json format
+                    return response()->json(['errors' => $validator->errors()], 422);
+                }
+        
+                try {
+        
+                    if($request->has('type_user_id') || $request->has('state') || $request->has('socials')){
+                        //Add password to parameters
+                       $request->type_user_id = $user->type_user_id;
+                       $request->state = $user->state;
+                       $request->socials = $user->socials;
+                    }
+        
+                    //Inserts data recieved from form into variable
+                    $user->fill($request->all());
+                    
+
+                //Check if password is given in request
+                    if($request->has('password')){
+                        //Add password to parameters
+                        $user->password = Hash::make($request->password);
+                    }
+                    //Adds new data into database
+                    $user->save();
+        
+                    //Return list of data from data base in json format
+                    return response()->json($user);
+        
+                } catch (\Throwable $th) {
+        
+                    //Return throw error in json format
+                    return response()->json($th->getMessage(), 423);
+                }
+
     }
 }
