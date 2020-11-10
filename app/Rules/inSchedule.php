@@ -37,8 +37,8 @@ class inSchedule implements Rule
 
         //Check if appointment is in between the doctor's schedule
         $schedule = Schedule::where("doctor_id", $this->doctor_id)
-                            ->where("start_hour","<", $value)
-                            ->where("finish_hour",">", $value)
+                            ->where("start_hour","<=", $value)
+                            ->where("finish_hour",">=", $value)
                             ->where("day",$day)
                             ->where("state",1)
                             ->where("id","!=", $this->id)->get();
@@ -53,15 +53,15 @@ class inSchedule implements Rule
 
         //Check if appoint is NOT in any of the doctor's special schedules
         $special = Special::where("doctor_id", $this->doctor_id)
-                            ->where("start_hour","<", $value)
-                            ->where("finish_hour",">", $value)
+                            ->where("start_hour","<=", $value)
+                            ->where("finish_hour",">=", $value)
                             ->where("day",$this->appointment_date)
                             ->where("state",1)
                             ->where("id","!=", $this->id)->get();
 
 
         //Check for query results
-        if(!count($schedule)) {
+        if(count($special) != 0) {
             //changes error message variable
             $this->error_message = "La cita esta dentro de un horario especial del doctor.";
             return false;

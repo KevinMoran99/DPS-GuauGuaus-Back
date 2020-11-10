@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Rules\inSchedule;
 use App\Rules\inAppointment;
-
+use App\Rules\isDoctor;
 
 class AppointmentController extends Controller
 {
@@ -34,7 +34,8 @@ class AppointmentController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $appointment = Appointment::find($id)->where("state",1)->get();
+        $appointment = Appointment::find($id)
+                                    ->where("state",1)->get();
 
         //Check if data was found
         if(!$appointment) {
@@ -46,19 +47,6 @@ class AppointmentController extends Controller
         $json = json_decode($appointment, true);
 
         //Return json 
-        return $json;
-    }
-
-    public function getAppointmentbyPet($pet_id)
-    {
-        $appointment = Appointment::with('type')->where("pet_id", $pet_id)->where("state",1)->get();
-
-        if(count($appointment) ==0) {
-            return response()->json(['La mascota no tiene citas.'], 404);
-        }
-
-        $json = json_decode($appointment, true);
-
         return $json;
     }
 
@@ -79,7 +67,7 @@ class AppointmentController extends Controller
                 'emergency' => array('required'),
                 'type_id' => array('required'),
                 'pet_id' => array('required'),
-                'doctor_id' => array('required'),
+                'doctor_id' => array('required', new isDoctor()),
                 'state'=>array('required', 'boolean'),
             )
         );
@@ -141,7 +129,7 @@ class AppointmentController extends Controller
                 'emergency' => array('required'),
                 'type_id' => array('required'),
                 'pet_id' => array('required'),
-                'doctor_id' => array('required'),
+                'doctor_id' => array('required', new isDoctor()),
                 'state'=>array('required', 'boolean'),
             )
         );
