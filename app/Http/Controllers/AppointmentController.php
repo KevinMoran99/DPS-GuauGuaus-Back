@@ -15,12 +15,25 @@ class AppointmentController extends Controller
 {
     //CRUD
 
-    //Show list of AppointmentTypes
+    //Show list of Appointments
     public function index()
     {
         //Requests list of data from data base
-        $appointment = Appointment::with('type','pet')
-                                    ->where("state",1)->get();
+        $appointment = Appointment::with('type','pet','user', 'pet.owner')->orderBy('appointment_date','desc')->get();
+        //$appointment  = Appointment::all();
+
+        //Encodes in json format all the data found
+        $json = json_decode($appointment, true);
+
+        //Returns json 
+        return $json;
+    }
+    
+    //Show list of active Appointments
+    public function getActiveAppointments()
+    {
+        //Requests list of data from data base
+        $appointment = Appointment::with('type','pet','user', 'pet.owner')->where('state',1)->orderBy('appointment_date','desc')->get();
         //$appointment  = Appointment::all();
 
         //Encodes in json format all the data found
@@ -34,8 +47,7 @@ class AppointmentController extends Controller
     public function show($id)
     {
         //Searches for data using an id
-        $appointment = Appointment::find($id)
-                                    ->where("state",1)->get();
+        $appointment = Appointment::find($id)->get();
 
         //Check if data was found
         if(!$appointment) {
@@ -47,6 +59,31 @@ class AppointmentController extends Controller
         $json = json_decode($appointment, true);
 
         //Return json 
+        return $json;
+    }
+
+    public function getAppointmentbyPet($pet_id)
+    {
+        $appointment = Appointment::with('type','pet','user', 'pet.owner')->where("pet_id", $pet_id)->where('state',1)->orderBy('appointment_date','desc')->get();
+        if(count($appointment) ==0) {
+            return response()->json(['La mascota no tiene citas.'], 404);
+        }
+
+        $json = json_decode($appointment, true);
+
+        return $json;
+    }
+
+    
+    public function getAppointmentbyDoctor($doctor_id)
+    {
+        $appointment = Appointment::with('type','pet','user', 'pet.owner')->where("doctor_id", $doctor_id)->where('state',1)->orderBy('appointment_date','desc')->get();
+        if(count($appointment) ==0) {
+            return response()->json(['La mascota no tiene citas.'], 404);
+        }
+
+        $json = json_decode($appointment, true);
+
         return $json;
     }
 
