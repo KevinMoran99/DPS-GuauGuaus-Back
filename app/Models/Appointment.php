@@ -20,7 +20,7 @@ class Appointment extends Model
         return $this->belongsTo('App\Models\Pet');
     }
 
-    public function user(){
-        return $this->belongsTo('App\Models\User');
+    public function doctor(){
+        return $this->belongsTo('App\Models\User', 'doctor_id');
     }
 }

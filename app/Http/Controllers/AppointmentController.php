@@ -19,7 +19,7 @@ class AppointmentController extends Controller
     public function index()
     {
         //Requests list of data from data base
-        $appointment = Appointment::with('type','pet','user', 'pet.owner')->orderBy('appointment_date','desc')->get();
+        $appointment = Appointment::with('type','pet','doctor', 'pet.owner')->orderBy('appointment_date','desc')->get();
         //$appointment  = Appointment::all();
 
         //Encodes in json format all the data found
@@ -33,7 +33,7 @@ class AppointmentController extends Controller
     public function getActiveAppointments()
     {
         //Requests list of data from data base
-        $appointment = Appointment::with('type','pet','user', 'pet.owner')->where('state',1)->orderBy('appointment_date','desc')->get();
+        $appointment = Appointment::with('type','pet','doctor', 'pet.owner')->where('state',1)->orderBy('appointment_date','desc')->get();
         //$appointment  = Appointment::all();
 
         //Encodes in json format all the data found
@@ -64,7 +64,7 @@ class AppointmentController extends Controller
 
     public function getAppointmentbyPet($pet_id)
     {
-        $appointment = Appointment::with('type','pet','user', 'pet.owner')->where("pet_id", $pet_id)->where('state',1)->orderBy('appointment_date','desc')->get();
+        $appointment = Appointment::with('type','pet','doctor', 'pet.owner')->where("pet_id", $pet_id)->where('state',1)->orderBy('appointment_date','desc')->get();
         if(count($appointment) ==0) {
             return response()->json(['La mascota no tiene citas.'], 404);
         }
@@ -77,7 +77,7 @@ class AppointmentController extends Controller
     
     public function getAppointmentbyDoctor($doctor_id)
     {
-        $appointment = Appointment::with('type','pet','user', 'pet.owner')->where("doctor_id", $doctor_id)->where('state',1)->orderBy('appointment_date','desc')->get();
+        $appointment = Appointment::with('type','pet','doctor', 'pet.owner')->where("doctor_id", $doctor_id)->where('state',1)->orderBy('appointment_date','desc')->get();
         if(count($appointment) ==0) {
             return response()->json(['La mascota no tiene citas.'], 404);
         }
