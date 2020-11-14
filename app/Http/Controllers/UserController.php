@@ -122,7 +122,7 @@ class UserController extends Controller
 
         //Searches for data using id
         $user = User::find($request['id']);
-
+        $back = $user->password;
         //Checks if data was found
         if(!$user) {
 
@@ -174,6 +174,10 @@ class UserController extends Controller
             if($request->has('password')&& $request->password != $user->password){
                 //Add password to parameters
                 $user->password = Hash::make($request->password);
+            }
+            else
+            {
+                $user->password=$back;
             }
             //Adds new data into database
             $user->save();
@@ -370,7 +374,7 @@ class UserController extends Controller
 
 
                 $user = Auth::user();
-        
+                $back = $user->password;
                 /*Validate get/post from form
         
                 Rules: 
@@ -411,7 +415,7 @@ class UserController extends Controller
                        $request->state = $user->state;
                        $request->socials = $user->socials;
                     }
-        
+
                     //Inserts data recieved from form into variable
                     $user->fill($request->all());
                     
@@ -421,11 +425,16 @@ class UserController extends Controller
                         //Add password to parameters
                         $user->password = Hash::make($request->password);
                     }
+                    else
+                    {
+                        $user->password=$back;
+                    }
                     //Adds new data into database
                     $user->save();
         
                     //Return list of data from data base in json format
                     return response()->json($user);
+                    $back = null;
         
                 } catch (\Throwable $th) {
         
