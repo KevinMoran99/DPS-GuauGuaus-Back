@@ -20,6 +20,7 @@ class CreatePetDetailsTable extends Migration
             $table->unsignedBigInteger('codition_id');
             $table->foreign('codition_id')->references('id')->on('medical_condition');
             $table->string('observations', 1000);
+            $table->boolean('state')->default(1);
             $table->timestamps();
         });
     }

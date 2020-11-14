@@ -171,7 +171,7 @@ class UserController extends Controller
             $user->fill($request->all());
             
             //Check if password is given in request
-            if($request->has('password')){
+            if($request->has('password')&& $request->password != $user->password){
                 //Add password to parameters
                 $user->password = Hash::make($request->password);
             }
@@ -396,7 +396,6 @@ class UserController extends Controller
                         'phone' => array('required','min:8','max:8','regex:"^[267]{1}[0-9]{7}$"'),
                     )
                 );
-                
                 //Checks if validation fails
                 if($validator->fails()) {
         
@@ -418,7 +417,7 @@ class UserController extends Controller
                     
 
                 //Check if password is given in request
-                    if($request->has('password')){
+                    if($request->has('password') && $request->password != $user->password){
                         //Add password to parameters
                         $user->password = Hash::make($request->password);
                     }
