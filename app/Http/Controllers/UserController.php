@@ -171,7 +171,7 @@ class UserController extends Controller
             $user->fill($request->all());
             
             //Check if password is given in request
-            if($request->has('password')&& $request->password != $user->password){
+            if($request->has('password')&& $request->password != null){
                 //Add password to parameters
                 $user->password = Hash::make($request->password);
             }
@@ -421,7 +421,7 @@ class UserController extends Controller
                     
 
                 //Check if password is given in request
-                    if($request->has('password') && $request->password != $user->password){
+                    if($request->has('password') && $request->password != null){
                         //Add password to parameters
                         $user->password = Hash::make($request->password);
                     }
